@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>System Analysis and Design Project Schedule</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/frappe-gantt/dist/frappe-gantt.css">
+
+    <style>
+        :root {
+            --bg: #f5f7fa;
+            --card: #ffffff;
+            --primary: #2563eb;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Inter, Segoe UI, Arial, sans-serif;
+            background: var(--bg);
+            color: #1f2937;
+        }
+
+        header {
+            background: linear-gradient(135deg, #2563eb, #1d4ed8);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 32px;
+        }
+
+        header p {
+            opacity: 0.9;
+            margin-top: 8px;
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .toolbar {
+            background: var(--card);
+            padding: 15px 20px;
+            border-radius: 16px;
+            margin-bottom: 20px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        button {
+            border: none;
+            background: #e5e7eb;
+            padding: 10px 18px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: 0.2s;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+        }
+
+        button.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        .card {
+            background: var(--card);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            overflow-x: auto;
+        }
+
+        footer {
+            text-align: center;
+            color: #6b7280;
+            padding: 30px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>System Analysis and Design Project Schedule</h1>
+        <p>Project Timeline & Development Schedule</p>
+    </header>
+
+    <div class="container">
+
+        <div class="toolbar">
+            <button class="active" onclick="changeView(this,'Day')">Day</button>
+            <button onclick="changeView(this,'Week')">Week</button>
+            <button onclick="changeView(this,'Month')">Month</button>
+            <button onclick="changeView(this,'Year')">Year</button>
+        </div>
+
+        <div class="card">
+            <div id="gantt"></div>
+        </div>
+
+    </div>
+
+    <footer>
+        Generated using Frappe Gantt
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/frappe-gantt/dist/frappe-gantt.umd.js"></script>
+
+    <script>
+
+        const tasks = [
+            {
+                id: "1",
+                name: "Project Planning",
+                start: "2025-03-10",
+                end: "2025-03-23",
+                progress: 100,
+                dependencies: ""
+            },
+            {
+                id: "2",
+                name: "Requirement Gathering",
+                start: "2025-03-17",
+                end: "2025-03-30",
+                progress: 100,
+                dependencies: "1"
+            },
+            {
+                id: "3",
+                name: "Research & Analysis",
+                start: "2025-03-24",
+                end: "2025-04-06",
+                progress: 100,
+                dependencies: "2"
+            },
+            {
+                id: "4",
+                name: "System / Design Planning",
+                start: "2025-03-31",
+                end: "2025-04-13",
+                progress: 100,
+                dependencies: "3"
+            },
+            {
+                id: "5",
+                name: "Prototype Design",
+                start: "2025-04-07",
+                end: "2025-04-27",
+                progress: 80,
+                dependencies: "4"
+            },
+            {
+                id: "6",
+                name: "Prototype Development",
+                start: "2025-04-21",
+                end: "2025-05-25",
+                progress: 60,
+                dependencies: "5"
+            },
+            {
+                id: "7",
+                name: "Prototype Testing",
+                start: "2025-05-19",
+                end: "2025-06-08",
+                progress: 40,
+                dependencies: "6"
+            },
+            {
+                id: "8",
+                name: "Prototype Improvements",
+                start: "2025-06-02",
+                end: "2025-06-22",
+                progress: 20,
+                dependencies: "7"
+            },
+            {
+                id: "9",
+                name: "Prototype Final Review",
+                start: "2025-06-23",
+                end: "2025-06-29",
+                progress: 0,
+                dependencies: "8"
+            },
+            {
+                id: "10",
+                name: "Prototype Presentation",
+                start: "2025-06-30",
+                end: "2025-07-06",
+                progress: 0,
+                dependencies: "9"
+            }
+        ];
+
+        const gantt = new Gantt("#gantt", tasks, {
+            view_mode: "Week",
+            date_format: "YYYY-MM-DD",
+            language: "en",
+
+            popup: ({ task }) => `
+        <div style="padding:15px">
+            <h3>${task.name}</h3>
+            <p><b>Start:</b> ${task.start}</p>
+            <p><b>End:</b> ${task.end}</p>
+            <p><b>Progress:</b> ${task.progress}%</p>
+        </div>
+    `
+        });
+
+        function changeView(btn, mode) {
+
+            document
+                .querySelectorAll("button")
+                .forEach(b => b.classList.remove("active"));
+
+            btn.classList.add("active");
+
+            gantt.change_view_mode(mode);
+        }
+
+    </script>
+
+</body>
+
+</html>
